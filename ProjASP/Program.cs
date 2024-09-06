@@ -89,7 +89,7 @@ builder.Services.AddTransient<IDeleteColorCommand, EfDeleteColorCommand>();
 builder.Services.AddTransient<IGetImageQuery, EfGetImageQuery>();
 builder.Services.AddTransient<ICreateImageCommand, EfCreateImageCommand>();
 //builder.Services.AddTransient<IUpdateImageCommand, EfUpdateImageCommand>();
-//builder.Services.AddTransient<IDeleteImageCommand, EfDeleteImageCommand>();
+builder.Services.AddTransient<IDeleteImageCommand, EfDeleteImageCommand>();
 
 // Model
 builder.Services.AddTransient<IGetModelQuery, EfGetModelQuery>();

@@ -35,14 +35,14 @@ namespace Implementation
             try
 			{
 
-                if(command.Id != 17)
+                if (command.Id != 17)
                 {
                     if (!_actor.AllowedUseCases.Contains(command.Id))
                     {
                         throw new UnauthorizedAccessException();
                     }
                 }
-               
+
                 var _context = new AspProjContext();
 
                 _context.UseCaseLogs.Add(new Domain.UseCaseLog

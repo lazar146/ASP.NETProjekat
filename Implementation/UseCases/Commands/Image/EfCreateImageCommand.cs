@@ -16,15 +16,43 @@ namespace Implementation.UseCases.Commands.Image
         {
         }
 
-        public int Id => throw new NotImplementedException();
+        public int Id => 34;
 
-        public string Name => throw new NotImplementedException();
+        public string Name => "Create Image";
 
-        public string Description => throw new NotImplementedException();
+        public string Description => "Create Image Command";
 
         public void Execute(ImageDTO request)
         {
-            throw new NotImplementedException();
+            if (request.ImageFile != null && request.ImageFile.Length > 0)
+            {
+                var extension = Path.GetExtension(request.ImageFile.FileName);
+                var filename = Guid.NewGuid().ToString() + extension;
+                var savepath = Path.Combine("wwwroot", "images", filename);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(savepath));
+
+                using (var fs = new FileStream(savepath, FileMode.Create))
+                {
+                    request.ImageFile.CopyTo(fs);
+                }
+                
+                var image = new Domain.Image
+                {
+                    ImageName = request.ImageName,
+                    ImageUrl = filename, 
+                    ModelId = request.ModelId,
+                   
+                };
+
+               
+                Context.Images.Add(image);
+                Context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("No file uploaded.");
+            }
         }
-    }
+        }
 }

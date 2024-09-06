@@ -35,7 +35,7 @@ namespace Implementation.UseCases.Commands.User
                 LastName = request.LastName,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 BirthDate = request.BirthDate,
-                UseCases = Enumerable.Range(12, 22).Select(id => new UserUseCase { UseCaseId = id }).ToList()
+                UseCases = Enumerable.Range(12, 24).Select(id => new UserUseCase { UseCaseId = id }).ToList()
             };
 
                 Context.Users.Add(user);

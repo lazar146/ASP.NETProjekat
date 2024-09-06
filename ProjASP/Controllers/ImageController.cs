@@ -3,6 +3,7 @@ using Application.UseCases.Commands.Image;
 using Application.UseCases.DTO;
 using Application.UseCases.Queries;
 using Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,7 +36,8 @@ namespace ProjASP.Controllers
 
         // POST api/<ImageController>
         [HttpPost]
-        public IActionResult Post([FromBody] ImageDTO dto, [FromServices] ICreateImageCommand command)
+        [Consumes("multipart/form-data")]
+        public IActionResult Post([FromForm] ImageDTO dto, [FromServices] ICreateImageCommand command)
         {
             try
             {
@@ -54,10 +56,21 @@ namespace ProjASP.Controllers
         {
         }
 
-        // DELETE api/<ImageController>/5
+        [Authorize]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id, [FromServices] IDeleteImageCommand command)
         {
+            try
+            {
+                var dto = new ImageDTO();
+                dto.Id = id;
+                _useCaseHandler.HandleCommand(command, dto);
+                return StatusCode(251);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
